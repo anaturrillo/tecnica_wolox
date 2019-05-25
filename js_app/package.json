@@ -4,7 +4,8 @@
   "description": "entrevista tecnica wolox",
   "main": "index.js",
   "scripts": {
-    "test": "nyc --reporter=html --reporter=text mocha \"**/*.test.js\""
+    "test": "nyc --reporter=html --reporter=text mocha --timeout 5000 \"**/*.test.js\" -- --exit",
+    "test:mutant": "stryker run"
   },
   "repository": {
     "type": "git",
@@ -14,12 +15,19 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
-    "chai": "^4.2.0",
     "express": "^4.17.0",
-    "mocha": "^6.1.4",
-    "nock": "^10.0.6"
+    "mongodb": "^3.2.6",
+    "stryker-cli": "^1.0.0"
   },
   "devDependencies": {
+    "@stryker-mutator/core": "^2.0.0",
+    "@stryker-mutator/html-reporter": "^2.0.0",
+    "@stryker-mutator/javascript-mutator": "^2.0.0",
+    "@stryker-mutator/mocha-framework": "^2.0.0",
+    "@stryker-mutator/mocha-runner": "^2.0.0",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "nock": "^10.0.6",
     "nyc": "^14.1.1"
   }
 }

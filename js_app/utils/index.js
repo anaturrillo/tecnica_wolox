@@ -15,37 +15,27 @@ const checkFormat = function cicle(proto, o) {
 const filterByValue = (filter, format) => {
   const field = filter && filter.field;
   const value = filter && filter.value;
+  if(!field && !!value) return null;
+
   const type = findValueByKeyInObject(format, field);
 
-  const filterFn = item => {
+  return item => {
     const val = type === 'number' ? parseInt(value):value;
+
     return findValueByKeyInObject(item, field) === val;
   };
-
-  return field && value && filterFn;
 };
 
-const findValueByKeyInObject = (o, key) => {
-  if (o[key]) return o[key];
-  if (!isObjWithProps(o)) return;
+const findValueByKeyInObject = (object, searchedKey) => {
+  if (object[searchedKey]) return object[searchedKey];
 
-  let value;
-
-  function find(obj){
-    for (prop in obj) {
-      if (prop === key) {
-        value = obj[key]
-      } else {
-        if (obj.hasOwnProperty(prop) && isObjWithProps(obj[prop])) {
-          find(obj[prop])
-        }
-      }
+  for (const key in object) {
+    if (key === searchedKey) {
+      return object[searchedKey];
+    } else if (object[key] instanceof Array || object[key] instanceof Object) {
+      return findValueByKeyInObject(object[key]);
     }
   }
-  find(o);
-
-  return value;
-
 };
 
 const getRandomInRange = (min, max) => {
@@ -62,4 +52,17 @@ const createFilter = (filterParams) => {
 
 const getData = e => e.data;
 
-module.exports = {createFilter, getData, getRandomInRange, isObjWithProps, checkFormat, filterByValue, findValueByKeyInObject};
+const filterByMatchingField = ({list, matchField, value}) => {
+
+};
+
+module.exports = {
+  createFilter,
+  getData,
+  getRandomInRange,
+  isObjWithProps,
+  checkFormat,
+  filterByValue,
+  findValueByKeyInObject,
+  filterByMatchingField
+};

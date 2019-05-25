@@ -2,7 +2,9 @@ const client = require('./albums.client');
 const {filterByValue, findValueByKeyInObject} = require('../../utils');
 const albumFormat = require('../../utils/formats').album;
 
-const album = client.getAlbum;
+const album = id => {
+  return client.getAlbum(id)
+};
 
 const allAlbums = async ({field, value}) => {
   const albums = await client.getAllAlbums();

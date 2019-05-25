@@ -1,11 +1,11 @@
-const config = require('../../config');
-const axios = require('axios');
-const endpoint = require('./user.endpoint');
-const {getData} = require('../../utils');
+const {user, allUsers} = require('./users.model');
 
-const client = axios.create(endpoint);
+const getUser = (req) => user(req.params.id);
 
-const getUser = (req) => client.get(`/${req.params.id}`).then(getData);
-const getAllUsers = () => client.get('/').then(getData);
+const getAllUsers = async (req) => {
+  const field = req && req.query && req.query.field;
+  const value = req && req.query && req.query.value;
+  return allUsers({field, value})
+};
 
 module.exports = {getAllUsers, getUser};

@@ -9,14 +9,16 @@ const photoFormat = require('../utils/formats').photo;
 describe('endpoint api/photos/', function () {
   let randomPort;
   let currentServer;
+  let allItems;
 
-  beforeEach(() => {
+  before(async () => {
+    allItems = await axios.get(`${config.jsonplaceholder.domain}/photos`).then(getData)
     randomPort = getRandomInRange(1025, 65534);
-    currentServer = server.start(randomPort)
+    currentServer = await server.start(randomPort, config.testDb);
   });
 
-  afterEach(() => {
-    currentServer.close()
+  after(async () => {
+    return new Promise(result => currentServer.app.close(result));
   });
 
   it('should return photos list', () => {
@@ -29,31 +31,26 @@ describe('endpoint api/photos/', function () {
       })
   });
 
-  it('?field=userId&value=[value] should respond with photos list filtered by userId', () => {
-    return axios.get(`${config.domain}:${randomPort}/api/photos?field=userId&value=1`)
-      .then(response => {
-        // TODO como testear????
-      })
-  });
-
   it('?field=albumId&value=[value] should respond with photos list filtered by albumId', () => {
-    return axios.get(`${config.domain}:${randomPort}/api/photos?field=albumId&value=1`)
+    const value = allItems[0].albumId;
+    return axios.get(`${config.domain}:${randomPort}/api/photos?field=albumId&value=${value}`)
       .then(response => {
         expect(response.status).to.be.equal(200);
         const recievedData = response.data;
         expect(recievedData).to.be.an.instanceof(Array);
-        expect(recievedData.every(e => e.albumId === 1)).to.be.equal(true);
+        expect(recievedData.every(e => e.albumId === value)).to.be.equal(true);
         recievedData.map(e => checkFormat(photoFormat, e))
       })
   });
 
   it('?field=title&value=[value] should respond with photos list filtered by title', () => {
-    return axios.get(`${config.domain}:${randomPort}/api/photos?field=title&value=accusamus beatae ad facilis cum similique qui sunt`)
+    const value = allItems[0].title;
+    return axios.get(`${config.domain}:${randomPort}/api/photos?field=title&value=${value}`)
       .then(response => {
         expect(response.status).to.be.equal(200);
         const recievedData = response.data;
         expect(recievedData).to.be.an.instanceof(Array);
-        expect(recievedData.every(e => e.title === "accusamus beatae ad facilis cum similique qui sunt")).to.be.equal(true);
+        expect(recievedData.every(e => e.title === value)).to.be.equal(true);
         recievedData.map(e => checkFormat(photoFormat, e))
       })
   });
@@ -83,7 +80,7 @@ describe('endpoint api/photos/', function () {
   });
 
   it('?field=[field]&value=[non existent value] should failed with status code 404', () => {
-    return axios.get(`${config.domain}:${randomPort}/api/photos?field=albumId&value=999999999999999999999999`)
+    return axios.get(`${config.domain}:${randomPort}/api/photos?field=albumId&value=${Number.MAX_SAFE_INTEGER}`)
       .then(e => {
         should.fail()
       })
@@ -93,15 +90,25 @@ describe('endpoint api/photos/', function () {
   });
 
   it('/:id should respond with user with matching id', function () {
-    const photoId = 1;
-    return axios.get(`${config.domain}:${randomPort}/api/photos/${photoId}`)
+    const value = allItems[0].albumId;
+    return axios.get(`${config.domain}:${randomPort}/api/photos/${value}`)
       .then(response => {
         const recievedData = response.data;
         expect(response.status).to.be.equal(200);
-        expect(recievedData.id).to.be.equal(photoId);
+        expect(recievedData.id).to.be.equal(value);
 
         checkFormat(photoFormat, recievedData)
       })
-  })
+  });
 
+  it('/:non-existent-id should respond with status code 404', function () {
+    const albumId = 1;
+    return axios.get(`${config.domain}:${randomPort}/api/photos/${Number.MAX_SAFE_INTEGER}`)
+      .then(e => {
+        should.fail()
+      })
+      .catch(res => {
+        expect(res.response.status).to.be.equal(404);
+      })
+  })
 });

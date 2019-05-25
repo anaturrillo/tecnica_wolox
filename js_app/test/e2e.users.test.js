@@ -9,14 +9,16 @@ const userFormat = require('../utils/formats').user;
 describe('endpoint api/users/', function () {
   let randomPort;
   let currentServer;
+  let allItems;
 
-  beforeEach(() => {
+  before(async () => {
     randomPort = getRandomInRange(1025, 65534);
-    currentServer = server.start(randomPort)
+    currentServer = await server.start(randomPort, config.testDb);
+    allItems = await axios.get(`${config.jsonplaceholder.domain}/users`).then(getData)
   });
 
-  afterEach(() => {
-    currentServer.close()
+  after(async () => {
+    return new Promise(result => currentServer.app.close(result));
   });
 
   it('should return users list', () => {
@@ -26,20 +28,26 @@ describe('endpoint api/users/', function () {
         expect(recieved).to.be.an.instanceof(Array);
         recieved.map(e => checkFormat(userFormat, e))
       })
-      .catch(e => {
-        console.error(e)
-      })
   });
 
   it('/:id should return user with matching id', function () {
-    const userId = 1;
-    return axios.get(`${config.domain}:${randomPort}/api/users/${userId}`)
+    const value = allItems[0].id;
+    return axios.get(`${config.domain}:${randomPort}/api/users/${value}`)
       .then(getData)
       .then(recieved => {
-        expect(recieved.id).to.be.equal(userId);
+        expect(recieved.id).to.be.equal(value);
 
         checkFormat(userFormat, recieved)
       })
-  })
+  });
 
+  it('/:non-existent-id should respond with status code 404', function () {
+    return axios.get(`${config.domain}:${randomPort}/api/users/${Number.MAX_SAFE_INTEGER}`)
+      .then(e => {
+        should.fail()
+      })
+      .catch(res => {
+        expect(res.response.status).to.be.equal(404);
+      })
+  })
 });

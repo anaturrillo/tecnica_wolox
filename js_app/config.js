@@ -3,6 +3,16 @@ const dev = {
   domain: 'http://localhost',
   jsonplaceholder: {
     domain: 'https://jsonplaceholder.typicode.com'
+  },
+  db:{
+    host:'mongodb://localhost',
+    port: '27017',
+    name: 'photoSharing-dev'
+  },
+  testDb: {
+    host:'mongodb://localhost',
+    port: '27017',
+    name: 'photoSharing-test'
   }
 };
 

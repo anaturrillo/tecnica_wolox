@@ -1,4 +1,4 @@
-const {photo, allPhotos} = require('./photos.model');
+const {photo, allPhotos} = require('./photos.services');
 
 const getPhoto = (req) => photo(req.params.id);
 

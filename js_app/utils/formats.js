@@ -31,9 +31,36 @@ module.exports.photo = {
 };
 
 module.exports.album = {
-  albumId: 'number',
+  userId: 'number',
+  id: 'number',
+  title: 'string'
+};
+
+module.exports.post = {
+  userId: 'number',
   id: 'number',
   title: 'string',
-  url: 'string',
-  thumbnailUrl: 'string'
+  body: 'string'
+};
+
+module.exports.comments = {
+  postId: 'number',
+  id: 'number',
+  name: 'string',
+  email: 'string',
+  body: 'string'
+};
+
+module.exports.sharedAlbums = {
+  userId: 'number',
+  albumId: 'number',
+  sharingUsers: [
+    {
+      userId: 'number',
+      permissions: {
+        read: true,
+        write: true
+      }
+    }
+  ]
 };

@@ -74,7 +74,7 @@ const users = [{
 
 describe('Photos', function () {
 
-  it('getAllPhotos should return user list from external service', function () {
+  it('getAllPhotos with no parameters should return user list from external service', function () {
     nock(`${config.jsonplaceholder.domain}/photos`, { allowUnmocked: true })
       .get('/')
       .reply(200, defaultPhotos);
@@ -85,23 +85,31 @@ describe('Photos', function () {
       })
   });
 
-  it('getAllPhotos should filter by title', function () {
+  it('getAllPhotos with filter params should filter by field:value [ex.: title]', function () {
+    const value = defaultPhotos[1].title;
+    const field = 'title';
+
     nock(`${config.jsonplaceholder.domain}/photos`, { allowUnmocked: true })
       .get('/')
       .reply(200,defaultPhotos);
 
-    const mockQuery = {query: {field: 'title', value: 'officia porro iure quia iusto qui ipsa ut modi'}};
+    const mockQuery = {query: {field, value}};
 
     return getAllPhotos(mockQuery)
       .then(e => {
-        expect(e).to.deep.equal(defaultPhotos.filter(e => e[mockQuery.query.field] === mockQuery.query.value))
+        expect(e).to.deep.equal(defaultPhotos.filter(e => e[field] === value))
       })
   });
 
   it('getAllPhotos should filter by user', function () {
+
+    nock(`${config.jsonplaceholder.domain}/albums`, { allowUnmocked: true })
+      .get('/')
+      .reply(200, albums);
+
     nock(`${config.jsonplaceholder.domain}/photos`, { allowUnmocked: true })
       .get('/')
-      .reply(200,defaultPhotos);
+      .reply(200, defaultPhotos);
 
     const mockQuery = {query: {field: 'userId', value: '1'}};
 

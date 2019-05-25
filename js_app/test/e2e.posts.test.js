@@ -4,62 +4,59 @@ const {getData, getRandomInRange, checkFormat} = require('../utils');
 const axios = require('axios');
 const expect = require('chai').expect;
 const should = require('chai').should();
-const photoFormat = require('../utils/formats').photo;
+const postFormat = require('../utils/formats').post;
 
-describe('endpoint api/photos/', function () {
+describe('endpoint api/posts/', function () {
   let randomPort;
   let currentServer;
+  let allItems;
 
-  beforeEach(() => {
+  before(async () => {
+    allItems = await axios.get(`${config.jsonplaceholder.domain}/posts`).then(getData)
     randomPort = getRandomInRange(1025, 65534);
-    currentServer = server.start(randomPort)
+    currentServer = await server.start(randomPort, config.testDb);
   });
 
-  afterEach(() => {
-    currentServer.close()
+  after(async () => {
+    return new Promise(result => currentServer.app.close(result));
   });
 
-  it('should return photos list', () => {
-    return axios.get(`${config.domain}:${randomPort}/api/photos`)
+  it('should return posts list', () => {
+    return axios.get(`${config.domain}:${randomPort}/api/posts`)
       .then(response => {
         expect(response.status).to.be.equal(200);
         const recievedData = response.data;
         expect(recievedData).to.be.an.instanceof(Array);
-        recievedData.map(e => checkFormat(photoFormat, e))
+        recievedData.map(e => checkFormat(postFormat, e))
       })
   });
 
-  it('?field=userId&value=[value] should respond with photos list filtered by userId', () => {
-    return axios.get(`${config.domain}:${randomPort}/api/photos?field=userId&value=1`)
-      .then(response => {
-        // TODO como testear????
-      })
-  });
-
-  it('?field=albumId&value=[value] should respond with photos list filtered by albumId', () => {
-    return axios.get(`${config.domain}:${randomPort}/api/photos?field=albumId&value=1`)
+  it('?field=userId&value=[value] should respond with posts list filtered by userId', () => {
+    const value = allItems[0].userId;
+    return axios.get(`${config.domain}:${randomPort}/api/posts?field=userId&value=${value}`)
       .then(response => {
         expect(response.status).to.be.equal(200);
         const recievedData = response.data;
         expect(recievedData).to.be.an.instanceof(Array);
-        expect(recievedData.every(e => e.albumId === 1)).to.be.equal(true);
-        recievedData.map(e => checkFormat(photoFormat, e))
+        expect(recievedData.every(e => e.userId === value)).to.be.equal(true);
+        recievedData.map(e => checkFormat(postFormat, e))
       })
   });
 
   it('?field=title&value=[value] should respond with photos list filtered by title', () => {
-    return axios.get(`${config.domain}:${randomPort}/api/photos?field=title&value=accusamus beatae ad facilis cum similique qui sunt`)
+    const value = allItems[0].title;
+    return axios.get(`${config.domain}:${randomPort}/api/posts?field=title&value=${value}`)
       .then(response => {
         expect(response.status).to.be.equal(200);
         const recievedData = response.data;
         expect(recievedData).to.be.an.instanceof(Array);
-        expect(recievedData.every(e => e.title === "accusamus beatae ad facilis cum similique qui sunt")).to.be.equal(true);
-        recievedData.map(e => checkFormat(photoFormat, e))
+        expect(recievedData.every(e => e.title === value)).to.be.equal(true);
+        recievedData.map(e => checkFormat(postFormat, e))
       })
   });
 
   it('?field=[non existent field]&value=[value] should failed with status code 400', () => {
-    return axios.get(`${config.domain}:${randomPort}/api/photos?field=NonExistentField&value="some value"`)
+    return axios.get(`${config.domain}:${randomPort}/api/posts?field=NonExistentField&value="some value"`)
       .then(e => should.fail())
       .catch(res => {
         expect(res.response.status).to.be.equal(400);
@@ -67,7 +64,7 @@ describe('endpoint api/photos/', function () {
   });
 
   it('?field=[empty]&value=[value] should failed with status code 400', () => {
-    return axios.get(`${config.domain}:${randomPort}/api/photos?field=&value="some value"`)
+    return axios.get(`${config.domain}:${randomPort}/api/posts?field=&value="some value"`)
       .then(e => should.fail())
       .catch(res => {
         expect(res.response.status).to.be.equal(400);
@@ -75,7 +72,7 @@ describe('endpoint api/photos/', function () {
   });
 
   it('?field=[field]&value=[empty] should failed with status code 400', () => {
-    return axios.get(`${config.domain}:${randomPort}/api/photos?field=albumId&value=`)
+    return axios.get(`${config.domain}:${randomPort}/api/posts?field=userId&value=`)
       .then(e => should.fail())
       .catch(res => {
         expect(res.response.status).to.be.equal(400);
@@ -83,7 +80,7 @@ describe('endpoint api/photos/', function () {
   });
 
   it('?field=[field]&value=[non existent value] should failed with status code 404', () => {
-    return axios.get(`${config.domain}:${randomPort}/api/photos?field=albumId&value=999999999999999999999999`)
+    return axios.get(`${config.domain}:${randomPort}/api/posts?field=userId&value=${Number.MAX_SAFE_INTEGER}`)
       .then(e => {
         should.fail()
       })
@@ -93,14 +90,24 @@ describe('endpoint api/photos/', function () {
   });
 
   it('/:id should respond with user with matching id', function () {
-    const photoId = 1;
-    return axios.get(`${config.domain}:${randomPort}/api/photos/${photoId}`)
+    const value = allItems[0].id;
+    return axios.get(`${config.domain}:${randomPort}/api/posts/${value}`)
       .then(response => {
         const recievedData = response.data;
         expect(response.status).to.be.equal(200);
-        expect(recievedData.id).to.be.equal(photoId);
+        expect(recievedData.id).to.be.equal(value);
 
-        checkFormat(photoFormat, recievedData)
+        checkFormat(postFormat, recievedData)
+      })
+  });
+
+  it('/:non-existent-id should respond with status code 404', function () {
+    return axios.get(`${config.domain}:${randomPort}/api/posts/${Number.MAX_SAFE_INTEGER}`)
+      .then(e => {
+        should.fail()
+      })
+      .catch(res => {
+        expect(res.response.status).to.be.equal(404);
       })
   })
 
