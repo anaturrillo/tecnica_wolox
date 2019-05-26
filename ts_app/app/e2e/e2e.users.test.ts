@@ -36,13 +36,13 @@ describe('User endpoint test', () => {
        server.close()
     });
 
-    it('/users should return all users', async () =>{
+    it('/findAllUsers should return all findAllUsers', async () =>{
         const recieved: User[] = await axios.get(`${config.domain}:${port}/api/users`).then(getData);
         expect(Array.isArray(recieved)).toBe(true);
         recieved.map(checkFormatList);
     });
 
-    it('/users/:id should return one user whit id matching the id sent in the request', async () =>{
+    it('/findAllUsers/:id should return one findUserById whit id matching the id sent in the request', async () =>{
 
         const recieved: User[] = await axios.get(`${config.domain}:${port}/api/users/1`).then(getData);
         expect(recieved).toHaveProperty('name');

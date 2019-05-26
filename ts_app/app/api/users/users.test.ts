@@ -1,5 +1,5 @@
 import {User} from "../types/models";
-import {user, users} from './users.service'
+import {findUserById, findAllUsers} from './users.service'
 import {getUsers} from './users.client'
 
 const defaultUsers: User[] = [
@@ -55,29 +55,29 @@ const mock = e => jest.fn().mockReturnValue(e);
 
 //jest.mock('./albums.client');
 
-it("Should return all users", async () => {
+it("Should return all findAllUsers", async () => {
     // @ts-ignore
     getUsers = mock(Promise.resolve(defaultUsers));
 
-    const result = await users();
+    const result = await findAllUsers();
 
     expect(result).toEqual(defaultUsers);
 });
 
-it("Should return the user matching with a given ID", async () => {
+it("Should return the findUserById matching with a given ID", async () => {
     // @ts-ignore
-    user = mock(Promise.resolve(defaultUsers[0]));
+    findUserById = mock(Promise.resolve(defaultUsers[0]));
 
-    const result = await user(defaultUsers[0].id);
+    const result = await findUserById(defaultUsers[0].id);
 
     expect(result).toEqual(defaultUsers[0]);
 });
 
 it("Should throw not found error when id does not exists", async () => {
     // @ts-ignore
-    user = mock(Promise.resolve({}));
+    findUserById = mock(Promise.resolve({}));
 
-    const result = await user(Number.MAX_VALUE);
+    const result = await findUserById(Number.MAX_VALUE);
 
     expect(result).toThrow();
 });

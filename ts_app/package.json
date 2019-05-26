@@ -17,7 +17,9 @@
     "express": "^4.17.0",
     "mongodb": "^3.2.5",
     "morgan": "^1.9.1",
+    "node-sqlite": "0.0.2-security",
     "rotating-file-stream": "^1.4.1",
+    "sqlite": "^3.0.3",
     "tslint": "^5.16.0",
     "typescript": "^3.4.5"
   },

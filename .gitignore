@@ -3,4 +3,5 @@
 */.nyc_output
 */.stryker-tmp
 */coverage
+*/db.sqlite
 

@@ -1,8 +1,12 @@
-import {getUsers, getUser} from './users.client'
+import {findUsers, getUsers} from "./users.client";
+import {InvalidArgumentError} from "../../utils/errors";
 
-export const users = async () => await getUsers();
+export const findAllUsers = () => getUsers();
 
-export const user = async (userId:number) => {
-    if (!userId || isNaN(userId)) throw {error:'User id is missing or badly formatted', code:'bad_format'}
-    return await getUser(userId);
+export const findUserById = (userId: number) => {
+    if (Number.isInteger(userId)) {
+        return findUsers(userId);
+    }
+
+    throw new InvalidArgumentError("User id", userId);
 };

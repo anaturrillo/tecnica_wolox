@@ -1,22 +1,22 @@
-import {userEndpoint} from '../../utils/endpoints'
-import axios from 'axios'
+import axios from "axios";
+import {userEndpoint} from "../../utils/endpoints";
 import {getData} from "../../utils/helpers";
-import {User} from "../types/models";
+import {IUser} from "../types/models";
+import {EntityNotFoundError} from "../../utils/errors";
 
 const client = axios.create(userEndpoint);
 
-export const getUser = (userId):Promise<User> => {
+export const findUsers = (userId): Promise<IUser> => {
     return client.get(`/${userId}`)
         .then(getData)
-        .catch(e => {
-            if (e.response.status) {
-                throw {error: 'User not found', code: 'not_found'}
-            } else {
-                throw e;
+        .catch((e) => {
+            if (e.response.status === 404) {
+                throw new EntityNotFoundError("User", userId);
             }
-        })
+            throw e;
+        });
 };
 
-export const getUsers = (): Promise<User[]> => {
-    return client.get('/').then(getData)
+export const getUsers = (): Promise<IUser[]> => {
+    return client.get("/").then(getData);
 };
