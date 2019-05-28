@@ -1,10 +1,10 @@
 import {Request} from "express";
 import {ControllerFunction} from "../controller";
 import {IUser} from "../types/models";
-import {findUserById, findAllUsers} from "./users.service";
+import {findUserByIdService, findAllUsersService} from "./users.service";
 
 export const usersController: ControllerFunction<IUser[]> = () =>
-    findAllUsers();
+    findAllUsersService();
 
 export const userController: ControllerFunction<IUser> = (req: Request) =>
-    findUserById(parseInt(req.params.id));
+    findUserByIdService(parseInt(req.params.id));

@@ -1,6 +1,8 @@
+const {BAD_FORMAT, NOT_FOUND} = require('../utils/codes');
+
 const httpStatus = {
-  'not_found':404,
-  'bad_format':400
+  [NOT_FOUND]:404,
+  [BAD_FORMAT]:400
 };
 
 module.exports = fn => (req, res) => Promise.all([fn(req)])

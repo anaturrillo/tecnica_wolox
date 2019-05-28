@@ -1,9 +1,6 @@
 import {Request} from "express";
-import {findPhotosByUserId, findAllPhotos} from "./photos.service";
+import {findPhotosService} from "./photos.service";
+import {IPhoto} from "../types/models";
 
-export const findPhotosByUserIdController = (req: Request) => {
-    if (!isNaN(req.query.userId)) {
-        return findPhotosByUserId(parseInt(req.query.userId));
-    }
-    return findAllPhotos();
-};
+export const findPhotosController = (req: Request): Promise<IPhoto[]> =>
+    findPhotosService(parseInt(req.query.userId));

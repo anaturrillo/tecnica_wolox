@@ -19,3 +19,7 @@
 26/May/2019:04:21:05 +0000 PUT /api/shared/album/1/user/2 500 - 181.875 ms
 26/May/2019:04:21:22 +0000 PUT /api/shared/album/1/user/2 500 - 4.486 ms
 26/May/2019:04:27:03 +0000 PUT /api/shared/album/1/user/2 500 - 4.716 ms
+26/May/2019:20:40:06 +0000 GET /favicon.ico 404 - 1.501 ms
+26/May/2019:20:40:17 +0000 GET /api/users/1 404 - 85.738 ms
+26/May/2019:20:40:19 +0000 GET /api/users/1 404 - 3.950 ms
+26/May/2019:20:40:27 +0000 GET /api/users/1 404 - 2.871 ms

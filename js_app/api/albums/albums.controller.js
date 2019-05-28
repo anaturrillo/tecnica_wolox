@@ -1,4 +1,4 @@
-const {album, allAlbums} = require('./albums.model');
+const {album, allAlbums} = require('./albums.service');
 
 const getAlbum = (req) => album(req.params.id);
 

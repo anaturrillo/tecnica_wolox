@@ -14,7 +14,7 @@ describe('endpoint api/albums/', function () {
   let allItems;
 
   before(async () => {
-    allItems = await axios.get(`${config.jsonplaceholder.domain}/albums`).then(getData)
+    allItems = await axios.get(`${config.jsonplaceholder.domain}/albums`).then(getData);
     randomPort = getRandomInRange(1025, 65534);
     currentServer = await server.start(randomPort, config.testDb);
   });

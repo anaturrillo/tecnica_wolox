@@ -1,26 +1,20 @@
-import {getData} from "../../utils/helpers";
-import axios from "axios";
-import {albumsEndpoint} from "../../utils/endpoints";
-import {IAlbum} from "../types/models";
+import {InvalidArgumentError} from "../../utils/errors";
+import {findAlbum, findAlbumsByUserId, findAllAlbums} from "./albums.client";
 
-const client = axios.create(albumsEndpoint);
+export const findAlbumsService = (userId: number) => {
+    const isEmpty = userId === null || userId === undefined;
 
-export const findAlbumsByUserId = (userId: number) =>
-    client
-        .get<IAlbum[]>("", {
-            params: {
-                userId,
-            },
-        })
-        .then(getData);
+    if (isEmpty) {
+        return findAllAlbums();
+    } else if (Number.isInteger(userId)) {
+        return findAlbumsByUserId(userId);
+    }
+    throw new InvalidArgumentError("User Id", userId);
+};
 
-export const findAllAlbums = () => client.get("").then(getData);
-
-export const findAlbum = (albumId: number) =>
-    client
-        .get<IAlbum[]>("", {
-            params: {
-                id: albumId,
-            },
-        })
-        .then(getData);
+export const findAlbumService = (albumId: number) => {
+    if (Number.isInteger(albumId)) {
+        return findAlbum(albumId);
+    }
+    throw new InvalidArgumentError("Album Id", albumId);
+};

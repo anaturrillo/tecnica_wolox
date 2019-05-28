@@ -1,22 +1,16 @@
-import {findComment, findCommentByEmail} from "./comments.client";
-import {findUserById} from "../users/users.service";
+import {findCommentsByEmail, findCommentsByName} from "./comments.client";
 import {InvalidArgumentError} from "../../utils/errors";
+import {IComment} from "../types/models";
 
-
-async function findCommentsByUserId(userId: number) {
-    const user = await findUserById(userId);
-    return findCommentByEmail(user.email);
-}
-
-export const findCommentsbyQuery = (name: string, userId: number) => {
-    const hasUserId = !isNaN(userId);
+export const findCommentsbyQuery = (name: string, email: string): Promise<IComment> => {
+    const hasEmail = email !== undefined && email !== null;
     const hasName = name !== undefined && name !== null;
 
-    if (hasUserId) {
-        return findCommentsByUserId(userId);
+    if (hasEmail) {
+        return findCommentsByEmail(email);
     } else if (hasName) {
-        return findComment(name);
+        return findCommentsByName(name);
     }
 
-    throw new InvalidArgumentError("(userId OR name)", {name, userId});
+    throw new InvalidArgumentError("(name OR email)", "null");
 };

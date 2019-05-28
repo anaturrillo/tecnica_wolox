@@ -1,11 +1,11 @@
-import {findUsers, getUsers} from "./users.client";
+import {findUser, getUsers} from "./users.client";
 import {InvalidArgumentError} from "../../utils/errors";
 
-export const findAllUsers = () => getUsers();
+export const findAllUsersService = () => getUsers();
 
-export const findUserById = (userId: number) => {
+export const findUserByIdService = (userId: number) => {
     if (Number.isInteger(userId)) {
-        return findUsers(userId);
+        return findUser(userId);
     }
 
     throw new InvalidArgumentError("User id", userId);

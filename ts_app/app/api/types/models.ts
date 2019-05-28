@@ -23,10 +23,11 @@ export interface IUser {
 }
 
 export interface IPhoto {
-    readonly userId: number;
     readonly id: number;
+    readonly albumId: number;
     readonly title: string;
-    readonly body: string;
+    readonly url: string;
+    readonly thumbnailUrl: string;
 }
 
 export interface IAlbum {

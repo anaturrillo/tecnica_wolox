@@ -2,12 +2,12 @@ const expect = require('chai').expect;
 
 const isObjWithProps = obj => !!obj && !!Object.keys(obj).length && typeof obj === 'object' && !Array.isArray(obj);
 
-const checkFormat = function cicle(proto, o) {
-  for (prop in proto) {
-    if (isObjWithProps(proto[prop])) {
-      cicle(proto[prop], o[prop])
+const checkFormat = function cicle(proto, object) {
+  for (const key in proto) {
+    if (isObjWithProps(proto[key])) {
+      cicle(proto[key], object[key])
     } else {
-      expect(o).to.have.property(prop)
+      expect(object).to.have.property(key)
     }
   }
 };
@@ -28,11 +28,12 @@ const filterByValue = (filter, format) => {
 
 const findValueByKeyInObject = (object, searchedKey) => {
   if (object[searchedKey]) return object[searchedKey];
+  if (!isObjWithProps(object)) return;
 
   for (const key in object) {
     if (key === searchedKey) {
       return object[searchedKey];
-    } else if (object[key] instanceof Array || object[key] instanceof Object) {
+    } else if (isObjWithProps(object[key] )) {
       return findValueByKeyInObject(object[key]);
     }
   }

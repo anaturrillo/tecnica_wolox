@@ -1,17 +1,19 @@
-const {changeAlbumUserPermissions} = require("./sharedAlbums.model");
-const {removeAlbumUser} = require("./sharedAlbums.model");
+const {changeAlbumUserPermissions} = require("./sharedAlbums.service");
+const {removeAlbumUser} = require("./sharedAlbums.service");
+const {BAD_FORMAT, NOT_FOUND} = require('../../utils/codes');
+
 const {
   sharedAlbum,
   allSharedAlbums,
   createSharedAlbumModel,
   addAlbumUser,
   findAlbumUsers
-} = require('./sharedAlbums.model');
+} = require('./sharedAlbums.service');
 
 const getSharedAlbum = db => async (req) => {
   const value = await sharedAlbum(db, parseInt(req.params.id));
   if(!value) {
-    throw { error: "Album not found", code: "not_found" };
+    throw { error: 'Album not found', code: NOT_FOUND};
   }
   return value;
 };

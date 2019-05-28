@@ -1,4 +1,4 @@
-const {user, allUsers} = require('./users.model');
+const {user, allUsers} = require('./users.service');
 
 const getUser = (req) => user(req.params.id);
 

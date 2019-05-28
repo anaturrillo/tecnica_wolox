@@ -1,7 +1,7 @@
 import {ErrorCode} from "../api/types/models";
 
 export abstract class AppError extends Error {
-    private code: ErrorCode;
+    public readonly code: ErrorCode;
 
     protected constructor(msg: string, code: ErrorCode) {
         super(msg);

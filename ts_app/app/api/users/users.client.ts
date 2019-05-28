@@ -4,10 +4,8 @@ import {getData} from "../../utils/helpers";
 import {IUser} from "../types/models";
 import {EntityNotFoundError} from "../../utils/errors";
 
-const client = axios.create(userEndpoint);
-
-export const findUsers = (userId): Promise<IUser> => {
-    return client.get(`/${userId}`)
+export const findUser = (userId: number): Promise<IUser> => {
+    return axios.get(`/${userId}`, userEndpoint)
         .then(getData)
         .catch((e) => {
             if (e.response.status === 404) {
@@ -18,5 +16,5 @@ export const findUsers = (userId): Promise<IUser> => {
 };
 
 export const getUsers = (): Promise<IUser[]> => {
-    return client.get("/").then(getData);
+    return axios.get("/", userEndpoint).then(getData);
 };

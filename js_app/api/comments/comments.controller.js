@@ -1,4 +1,4 @@
-const {comment, allComments} = require('./comments.model');
+const {comment, allComments} = require('./comments.service');
 
 const getComment = (req) => comment(req.params.id);
 

@@ -13,13 +13,14 @@ module.exports = {
       .connect(`${dbData.host}:${dbData.port}`, { useNewUrlParser: true })
       .then(client => {
         const db = client.db(dbData.name);
+
         app.use('/api', api(db));
 
         return {app: app.listen(port), db, dbClient: client};
       })
       .then(({app, db, dbClient}) => {
         console.log(`Server listening at port ${port}`);
-        return {app, db, dbClient};
+        return {app, db, dbClient}; // for testing
       });
   }
 };

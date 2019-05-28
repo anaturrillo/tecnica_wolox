@@ -1,4 +1,4 @@
-const {post, allPosts} = require('./posts.model');
+const {post, allPosts} = require('./posts.service');
 
 const getPost = (req) => post(req.params.id);
 

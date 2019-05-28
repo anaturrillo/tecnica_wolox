@@ -5,7 +5,7 @@ import {IComment, IPhoto} from "../types/models";
 
 const client = axios.create(commentsEndpoint);
 
-export const findComment = (name: string) =>
+export const findCommentsByName = (name: string): Promise<IComment> =>
     client
         .get<IComment[]>("", {
             params: {
@@ -14,7 +14,7 @@ export const findComment = (name: string) =>
         })
         .then(getData);
 
-export const findCommentByEmail = (email: string) =>
+export const findCommentsByEmail = (email: string): Promise<IComment> =>
     client
         .get<IComment[]>("", {
             params: {
