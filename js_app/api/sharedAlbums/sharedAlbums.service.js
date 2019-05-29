@@ -28,10 +28,9 @@ const allSharedAlbums = async (db, {field, value}) => {
 };
 
 const createSharedAlbumModel = async (db, sharedAlbum) => {
-  const hasUserId = sharedAlbum && sharedAlbum.userId;
   const hasAlbumId = sharedAlbum && sharedAlbum.albumId;
 
-  if (!hasUserId || !hasAlbumId) throw  {error: 'Missing required fields', code:BAD_FORMAT};
+  if (!hasAlbumId) throw  {error: 'Missing required fields', code:BAD_FORMAT};
 
   let newSharingUsers = [];
   if (sharedAlbum.sharingUsers) {
@@ -40,7 +39,7 @@ const createSharedAlbumModel = async (db, sharedAlbum) => {
       return e;
     });
   }
-  return client.createSharedAlbum(db, {...sharedAlbum, _id: sharedAlbum.albumId,  sharingUsers: newSharingUsers});
+  return client.createSharedAlbum(db, {...sharedAlbum,  sharingUsers: newSharingUsers});
 };
 
 const addAlbumUser = async (db, albumId, user) => {

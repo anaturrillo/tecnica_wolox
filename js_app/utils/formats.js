@@ -52,7 +52,6 @@ module.exports.comments = {
 };
 
 module.exports.sharedAlbums = {
-  userId: 'number',
   albumId: 'number',
   sharingUsers: [
     {

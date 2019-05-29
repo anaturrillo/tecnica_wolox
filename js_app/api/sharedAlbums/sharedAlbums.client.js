@@ -1,16 +1,21 @@
-const getSharedAlbum = (db, id) => db.collection('sharedAlbums').findOne({_id: id})
+const getSharedAlbum = (db, id) => db.collection('sharedAlbums')
+  .findOne({_id: id})
   .then(e => e);
 
-const getAllSharedAlbums = db => db.collection('sharedAlbums').find({}).toArray();
+const getAllSharedAlbums = db => db.collection('sharedAlbums')
+  .find({}).toArray();
 
 const createSharedAlbum = (db, sharedAlbum) => db.collection('sharedAlbums')
-  .insertOne(sharedAlbum)
-  .then(res => {
-    return {
-      result: 'ok',
-      inserted: res.ops[0]
-    }
-  });
+    .updateOne(
+      {_id: sharedAlbum.albumId},
+      {$set: sharedAlbum},
+      {upsert:true}
+    )
+    .then(res => {
+      return {
+        result: 'ok'
+      }
+    });
 
 const addAlbumUser = (db, albumId, user) => db.collection('sharedAlbums')
   .updateOne({_id: albumId, "sharingUsers.userId": {$ne: user.userId}}, {$push: {sharingUsers: user}});

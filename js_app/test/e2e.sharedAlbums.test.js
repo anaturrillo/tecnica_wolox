@@ -66,19 +66,7 @@ describe('/api/sharedlbums', function () {
       })
   });
 
-  it('PUT / should fail with 400 when userId is missing', () => {
-    const sharedAlbum = {
-      albumId: 1
-    };
-
-    return client.put('/', sharedAlbum)
-      .then(_ => should.fail())
-      .catch(res => {
-        expect(res.response.status).to.be.equal(400);
-      })
-  });
-
-  it('POST /:albumId/users creates a user into album', () => {
+  it('PUT /:albumId/users creates a user into album', () => {
     const albumId = body.albumId;
     const newUser = {
       userId: 3,
@@ -89,8 +77,8 @@ describe('/api/sharedlbums', function () {
     };
 
     return client.put('/', body)
-      .then(_ => client.post(`/${albumId}/users/`, newUser))
-      .then(_ => client.post(`/${albumId}/users/`, newUser))
+      .then(_ => client.put(`/${albumId}/users/`, newUser))
+      .then(_ => client.put(`/${albumId}/users/`, newUser))
       .then(_ => client.get(`/${albumId}`))
       .then(getData)
       .then(response => {
@@ -107,7 +95,7 @@ describe('/api/sharedlbums', function () {
     };
 
     return client.put('/', body)
-      .then(_ => client.post(`/${albumId}/users`, newUser3))
+      .then(_ => client.put(`/${albumId}/users`, newUser3))
       .then(_ => client.get(`/${albumId}`))
       .then(getData)
       .then(response => {
@@ -129,7 +117,7 @@ describe('/api/sharedlbums', function () {
     };
 
     return client.put('/', body)
-      .then(_ => client.post(`/${albumId}/users`, newUser))
+      .then(_ => client.put(`/${albumId}/users`, newUser))
       .then(_ => client.delete(`/${albumId}/users/${newUser.userId}`, newUser))
       .then(_ => client.get(`/${albumId}`))
       .then(getData)
@@ -180,9 +168,9 @@ describe('/api/sharedlbums', function () {
     };
 
     return client.put('/', body)
-      .then(_ => client.post(`/${albumId}/users/`, newUser1))
-      .then(_ => client.post(`/${albumId}/users/`, newUser2))
-      .then(_ => client.post(`/${albumId}/users/`, newUser3))
+      .then(_ => client.put(`/${albumId}/users/`, newUser1))
+      .then(_ => client.put(`/${albumId}/users/`, newUser2))
+      .then(_ => client.put(`/${albumId}/users/`, newUser3))
       .then(_ => client.get(`/${albumId}/users?permission=read`))
       .then(getData)
       .then(response => {

@@ -14,11 +14,12 @@ const sharedRouter = (db) => {
   const router = express.Router();
 
   router.get('/', respond(getAllSharedAlbums(db)));
-  router.get('/:id', respond(getSharedAlbum(db)));
   router.put('/', respond(createSharedAlbum(db)));
-  router.post('/:id/users', respond(addAlbumUserController(db)));
-  router.delete('/:id/users/:userId', respond(removeAlbumUserController(db)));
+  router.get('/:id', respond(getSharedAlbum(db)));
+
   router.get('/:id/users', respond(findAlbumUsersController(db)));
+  router.put('/:id/users', respond(addAlbumUserController(db)));
+  router.delete('/:id/users/:userId', respond(removeAlbumUserController(db)));
   router.patch('/:id/users/:userId/permissions', respond(changeAlbumUserPermissionsController(db)));
 
   return router
