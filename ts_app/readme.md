@@ -44,7 +44,7 @@ $ npm run test:mutation
 **GET /api/shared/album/{albumId}/user/?permission=write** retorna los usuarios con permisos de escritura del album
 
 
-### Test result
+### Test results
 **Coverage**
 
 90.2% Statements

@@ -1,6 +1,6 @@
 ### Installation
 
-Js_app requiere [Node.js](https://nodejs.org/) v12.2.0 y [mongoDB](https://www.mongodb.com/es) corriendo en el puerto 27017.
+**js_app** requiere [Node.js](https://nodejs.org/) v12.2.0 y [mongoDB](https://www.mongodb.com/es) corriendo en el puerto 27017.
 
 Instalar las dependencias y levantar el server:
 
