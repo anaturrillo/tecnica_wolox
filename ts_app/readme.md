@@ -48,8 +48,11 @@ $ npm run test:mutation
 **Coverage**
 
 90.2% Statements
+
 88.24% Branches
+
 78.43% Functions
+
 92.22% Lines
 
 **Mutation score**
