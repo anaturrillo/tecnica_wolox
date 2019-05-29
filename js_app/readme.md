@@ -1,13 +1,30 @@
-# NODE APP
+### Installation
 
-## Proyectos
-Decidí hacer dos versiones de la app, porque estoy hace poco probando typescript.
-Por lo tanto tenemos:
-**ts_app en typescript**
-**js_app en javascript**
+Js_app requiere [Node.js](https://nodejs.org/) v12.2.0 y [mongoDB](https://www.mongodb.com/es) corriendo en el puerto 27017.
 
-Aproveché la situación para hacer cosas distintas en cada proyecto. **ts_app** apunta a resolver exclusivamente lo pedido en el enunciado del ejercicio. En cambio **js_app** es un proyecto pensado para cubrir más necesidades y está encarado de manera más genérica, pensando en una app que puede crecer en features.
-Cada app es independiente y tiene su readme dentro de cada carpeta.
+Instalar las dependencias y levantar el server:
 
-## Tests
-**ts_app** tiene unit tests y **js_app** tiene tests e2e, ambos tienen mutation testing (en otra situación la app tendría los dos tipos de test).
+```sh
+$ cd js_app
+$ npm install
+$ npm start
+```
+
+Correr e2e tests:
+
+```sh
+$ npm test
+```
+
+### Test result
+
+**Coverage**
+| % | |
+| ------ | ------ |
+| 93.63 | Statements |
+| 83.33 | Branches |
+| 91.57 | Functions |
+| 95.44 | Lines |
+
+**Mutation score | 89.63%**
+
