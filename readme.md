@@ -3,7 +3,9 @@
 ## Proyectos
 Decidí hacer dos versiones de la app, porque estoy hace poco probando typescript.
 Por lo tanto tenemos:
+
 **ts_app en typescript**
+
 **js_app en javascript**
 
 Aproveché la situación para hacer cosas distintas en cada proyecto. **ts_app** apunta a resolver exclusivamente lo pedido en el enunciado del ejercicio. En cambio **js_app** es un proyecto pensado para cubrir más necesidades y está encarado de manera más genérica, pensando en una app que puede crecer en features.
