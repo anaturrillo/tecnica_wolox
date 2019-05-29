@@ -10,11 +10,17 @@ $ npm install
 $ npm start
 ```
 
-Correr e2e tests:
+Correr tests e2e:
 
 ```sh
 $ npm test
 ```
+Correr mutation:
+
+```sh
+$ npm run test:mutation
+```
+
 ### Endpoints
 [https://jsapp2.docs.apiary.io/#](https://jsapp2.docs.apiary.io/#)
 ### Test result
