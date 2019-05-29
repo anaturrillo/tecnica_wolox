@@ -17,14 +17,11 @@ $ npm test
 ```
 
 ### Test result
-
 **Coverage**
-| % | |
-| ------ | ------ |
-| 93.63 | Statements |
-| 83.33 | Branches |
-| 91.57 | Functions |
-| 95.44 | Lines |
+	93.63% Statements
+	83.33% Branches
+	91.57% Functions
+	95.44% Lines
 
-**Mutation score | 89.63%**
-
+**Mutation score**
+	89.63%
