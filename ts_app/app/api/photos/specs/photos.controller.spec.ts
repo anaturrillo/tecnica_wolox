@@ -3,9 +3,10 @@ import {findPhotosController} from "../photos.controller";
 import {findPhotosService} from "../photos.service";
 
 
-it("GIVEN a email, a service and findCommentsByEmail client." +
-"WHEN the service is called" +
-"THEN the service must return the response of findCommentsByEmail client", async () => {
+it("GIVEN a number string userId and findPhotosService, " +
+    "WHEN findPhotosController is called it" +
+    "SHOULD call once findPhotosService and" +
+    "SHOULD correctly parse userId to integer", async () => {
     const request = {
         query: {
             userId: "10",
@@ -20,7 +21,8 @@ it("GIVEN a email, a service and findCommentsByEmail client." +
 });
 
 
-it("Should call with NaN when the value is not a number", async () => {
+it("GIVEN a string containing not a number findAllAlbumsController " +
+    "SHOULD call with NaN when the value is not a number", async () => {
     const request = {
         query: {
             id: "PEPE",

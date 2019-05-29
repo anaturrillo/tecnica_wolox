@@ -6,13 +6,13 @@ const expect = require('chai').expect;
 const should = require('chai').should();
 const photoFormat = require('../utils/formats').photo;
 
-describe('endpoint api/photos/', function () {
+describe('/api/photos/', function () {
   let randomPort;
   let currentServer;
   let allItems;
 
   before(async () => {
-    allItems = await axios.get(`${config.jsonplaceholder.domain}/photos`).then(getData)
+    allItems = await axios.get(`${config.jsonplaceholder.domain}/photos`).then(getData);
     randomPort = getRandomInRange(1025, 65534);
     currentServer = await server.start(randomPort, config.testDb);
   });
@@ -21,7 +21,7 @@ describe('endpoint api/photos/', function () {
     return new Promise(result => currentServer.app.close(result));
   });
 
-  it('should return photos list', () => {
+  it('GET / should return photos list', () => {
     return axios.get(`${config.domain}:${randomPort}/api/photos`)
       .then(response => {
         expect(response.status).to.be.equal(200);
@@ -31,7 +31,7 @@ describe('endpoint api/photos/', function () {
       })
   });
 
-  it('?field=albumId&value=[value] should respond with photos list filtered by albumId', () => {
+  it('GET /?field=albumId&value=[value] should respond with photos list filtered by albumId', () => {
     const value = allItems[0].albumId;
     return axios.get(`${config.domain}:${randomPort}/api/photos?field=albumId&value=${value}`)
       .then(response => {
@@ -43,7 +43,7 @@ describe('endpoint api/photos/', function () {
       })
   });
 
-  it('?field=title&value=[value] should respond with photos list filtered by title', () => {
+  it('GET /?field=title&value=[value] should respond with photos list filtered by title', () => {
     const value = allItems[0].title;
     return axios.get(`${config.domain}:${randomPort}/api/photos?field=title&value=${value}`)
       .then(response => {
@@ -55,7 +55,7 @@ describe('endpoint api/photos/', function () {
       })
   });
 
-  it('?field=[non existent field]&value=[value] should failed with status code 400', () => {
+  it('GET /?field=[non existent field]&value=[value] should failed with status code 400', () => {
     return axios.get(`${config.domain}:${randomPort}/api/photos?field=NonExistentField&value="some value"`)
       .then(e => should.fail())
       .catch(res => {
@@ -63,7 +63,7 @@ describe('endpoint api/photos/', function () {
       })
   });
 
-  it('?field=[empty]&value=[value] should failed with status code 400', () => {
+  it('GET /?field=[empty]&value=[value] should failed with status code 400', () => {
     return axios.get(`${config.domain}:${randomPort}/api/photos?field=&value="some value"`)
       .then(e => should.fail())
       .catch(res => {
@@ -71,7 +71,7 @@ describe('endpoint api/photos/', function () {
       })
   });
 
-  it('?field=[field]&value=[empty] should failed with status code 400', () => {
+  it('GET /?field=[field]&value=[empty] should failed with status code 400', () => {
     return axios.get(`${config.domain}:${randomPort}/api/photos?field=albumId&value=`)
       .then(e => should.fail())
       .catch(res => {
@@ -79,7 +79,7 @@ describe('endpoint api/photos/', function () {
       })
   });
 
-  it('?field=[field]&value=[non existent value] should failed with status code 404', () => {
+  it('GET /?field=[field]&value=[non existent value] should failed with status code 404', () => {
     return axios.get(`${config.domain}:${randomPort}/api/photos?field=albumId&value=${Number.MAX_SAFE_INTEGER}`)
       .then(e => {
         should.fail()
@@ -89,7 +89,7 @@ describe('endpoint api/photos/', function () {
       })
   });
 
-  it('/:id should respond with user with matching id', function () {
+  it('GET /[photoId] should respond with photo a with matching id', function () {
     const value = allItems[0].albumId;
     return axios.get(`${config.domain}:${randomPort}/api/photos/${value}`)
       .then(response => {
@@ -101,7 +101,7 @@ describe('endpoint api/photos/', function () {
       })
   });
 
-  it('/:non-existent-id should respond with status code 404', function () {
+  it('GET /[non-existent-id ]should respond with status code 404', function () {
     const albumId = 1;
     return axios.get(`${config.domain}:${randomPort}/api/photos/${Number.MAX_SAFE_INTEGER}`)
       .then(e => {

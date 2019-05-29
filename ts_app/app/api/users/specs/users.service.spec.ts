@@ -2,6 +2,7 @@ import {IUser} from "../../types/models";
 import {findUserByIdService, findAllUsersService} from "../users.service";
 import {findUser, getUsers} from "../users.client";
 import {InvalidArgumentError} from "../../../utils/errors";
+import {findAlbumsByUserId} from "../../albums/albums.client";
 
 const defaultUsers: IUser[] = [
     {
@@ -56,25 +57,31 @@ const mock = (e) => jest.fn().mockReturnValue(e);
 const BAD_ID = 0.1;
 // jest.mock('./albums.client');
 
-it("Should return all system users", async () => {
+it("WHEN findAllUsersService is called, getUsers SHOULD be called, and SHOULD return all users.", async () => {
     // @ts-ignore
     getUsers = mock(Promise.resolve(defaultUsers));
 
     const result = await findAllUsersService();
 
     expect(result).toEqual(defaultUsers);
+    expect(getUsers).toBeCalledTimes(1);
+
 });
 
-it("Should return a user with matching id", async () => {
+it("GIVEN a UserId, " +
+    "WHEN findUserByIdService is called " +
+    "THEN findUser SHOULD be called and " +
+    "SHOULD return user", async () => {
     // @ts-ignore
     findUser = mock(Promise.resolve(defaultUsers[0]));
 
     const result = await findUserByIdService(defaultUsers[0].id);
 
     expect(result).toEqual(defaultUsers[0]);
+    expect(findUser).toBeCalledTimes(1);
 });
 
-it("Should throw an error when the id is not a number", async () => {
+it("GIVEN an invalis UserId, WHEN findUserByIdService SHOULD throw an InvalidArgumentError error", async () => {
     const expected = new InvalidArgumentError("User id", BAD_ID);
     try {
         await findUserByIdService(BAD_ID);

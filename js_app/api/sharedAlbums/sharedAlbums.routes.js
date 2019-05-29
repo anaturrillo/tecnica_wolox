@@ -15,11 +15,10 @@ const sharedRouter = (db) => {
 
   router.get('/', respond(getAllSharedAlbums(db)));
   router.get('/:id', respond(getSharedAlbum(db)));
-  router.post('/', respond(createSharedAlbum(db)));
+  router.put('/', respond(createSharedAlbum(db)));
   router.post('/:id/users', respond(addAlbumUserController(db)));
   router.delete('/:id/users/:userId', respond(removeAlbumUserController(db)));
   router.get('/:id/users', respond(findAlbumUsersController(db)));
-
   router.patch('/:id/users/:userId/permissions', respond(changeAlbumUserPermissionsController(db)));
 
   return router

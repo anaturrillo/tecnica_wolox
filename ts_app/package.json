@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "tslint --config tslint.json app/**/*.ts",
     "start": "ts-node app/index.ts",
-    "start-app": "npm run lint & npm run start-app"
+    "test:mutation": "npx stryker run",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",

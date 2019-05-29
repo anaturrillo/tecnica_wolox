@@ -6,7 +6,7 @@ import {findAlbumsService} from "../albums.service";
 
 const mock = (e) => jest.fn().mockReturnValue(e);
 
-it("Should parse int properly", async () => {
+it("GIVEN a string containing a number findAllAlbumsController SHOULD parse it properly to integer", async () => {
     const request = {
         query: {
             userId: "10",
@@ -21,7 +21,8 @@ it("Should parse int properly", async () => {
 });
 
 
-it("Should call with NaN when the value is not a number", async () => {
+it("GIVEN a string containing not a number findAllAlbumsController " +
+    "SHOULD call with NaN when the value is not a number", async () => {
     const request = {
         query: {
             id: "PEPE",

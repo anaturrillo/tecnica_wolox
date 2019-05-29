@@ -62,10 +62,10 @@ const defaultUsers: IUser[] = [
     },
 ];
 
-it("GIVEN parameters, a controller and shareAlbumWithUser service." +
-    "WHEN the controller is called" +
-    "THEN the controller must call shareAlbumWithUser service once" +
-    "THEN the controller must return SharedCodes.OK", async () => {
+it("GIVEN parameters and shareAlbumWithUser service." +
+    "WHEN shareAlbumWithUserController is called it" +
+    "SHOULD call shareAlbumWithUser service once and" +
+    "SHOULD return SharedCodes.OK", async () => {
     const expected = ShareCodes.OK;
     const request = {
         params: {
@@ -95,10 +95,10 @@ it("GIVEN parameters, a controller and shareAlbumWithUser service." +
 });
 
 
-it("GIVEN parameters, a controller and findSharedAlbumUsersByPermissionService service." +
-    "WHEN the controller is called" +
-    "THEN the controller must call findSharedAlbumUsersByPermissionService service once" +
-    "THEN the controller must return the response of findSharedAlbumUsersByPermissionService service", async () => {
+it("GIVEN parameters and findSharedAlbumUsersByPermissionService service." +
+    "WHEN findSharedAlbumUsersByPermissionController is called it" +
+    "SHOULD call findSharedAlbumUsersByPermissionService service once and" +
+    "SHOULD return the response of findSharedAlbumUsersByPermissionService service", async () => {
     const expected = defaultUsers;
     const request = {
         params: {
@@ -124,10 +124,10 @@ it("GIVEN parameters, a controller and findSharedAlbumUsersByPermissionService s
 });
 
 
-it("GIVEN parameters, a controller and changePermissionsForUser service." +
-    "WHEN the controller is called" +
-    "THEN the controller must call changePermissionsForUser " +
-    "THEN the controller must return OK", async () => {
+it("GIVEN parameters and changePermissionsForUser service." +
+    "WHEN changeUserPermissionsController is called it " +
+    "SHOULD call changePermissionsForUser and " +
+    "SHOULD return OK", async () => {
     const expected = ShareCodes.OK;
     const request = {
         params: {

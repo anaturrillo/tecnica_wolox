@@ -48,9 +48,9 @@ const defaultUsers: IUser[] = [
 ];
 
 describe("shareAlbumWithUser tests", () => {
-    it("GIVEN an albumId, userId, write flag and read flag," +
-        "WHEN the service is called" +
-        "THEN the service must save the user data and return ShareCodes.OK", async () => {
+    it("GIVEN albumId, userId, write flag and read flag, " +
+        "WHEN shareAlbumWithUser is called it" +
+        "SHOULD save the user data and return ShareCodes.OK", async () => {
         const expected = ShareCodes.OK;
         // @ts-ignore
         findAlbumsService = jest.fn().mockImplementation((e) =>
@@ -91,8 +91,8 @@ describe("shareAlbumWithUser tests", () => {
 
 
     it("GIVEN an unexistent albumId, userId, write flag and read flag," +
-        "WHEN the service is called" +
-        "THEN the service must throw an InvalidArgumentError", async () => {
+        "WHEN shareAlbumWithUser is called it " +
+        "SHOULD throw an InvalidArgumentError", async () => {
         const expected = new InvalidArgumentError("Album", shareUser.albumId);
         // @ts-ignore
         findAlbumService = jest.fn().mockRejectedValue({code: "404"});
@@ -116,9 +116,9 @@ describe("shareAlbumWithUser tests", () => {
         }
     });
 
-    it("GIVEN an arror getting the album, an userId, write flag and read flag," +
-        "WHEN the service is called" +
-        "THEN the service must throw an error", async () => {
+    it("GIVEN an error getting the album, an userId, write flag and read flag," +
+        "WHEN shareAlbumWithUser is called it " +
+        "SHOULD throw an error", async () => {
         const expected = {code: "500"};
         // @ts-ignore
         findAlbumService = jest.fn().mockRejectedValue(expected);
@@ -143,8 +143,8 @@ describe("shareAlbumWithUser tests", () => {
 
 
     it("GIVEN an albumId, an unexistent userId, write flag and read flag," +
-        "WHEN the service is called" +
-        "THEN the service must throw an InvalidArgumentError", async () => {
+        "WHEN shareAlbumWithUser is called it " +
+        "SHOULD throw an InvalidArgumentError", async () => {
         const expected = new InvalidArgumentError("User", shareUser.userId);
         // @ts-ignore
         findUserByIdService = jest.fn().mockRejectedValue({code: "404"});
@@ -169,8 +169,8 @@ describe("shareAlbumWithUser tests", () => {
     });
 
     it("GIVEN an albumId, an error getting the user, write flag and read flag," +
-        "WHEN the service is called" +
-        "THEN the service must throw an error", async () => {
+        "WHEN shareAlbumWithUser is called it " +
+        "SHOULD throw an error", async () => {
         const expected = {code: 500};
         // @ts-ignore
         findUserByIdService = jest.fn().mockRejectedValue(expected);
@@ -195,9 +195,9 @@ describe("shareAlbumWithUser tests", () => {
 });
 
 describe("findSharedAlbumUsersByPermissionService tests", () => {
-    it("GIVEN an albumId, permission = read and findSharedAlbumUsersByPermissionService, " +
-        "WHEN the service is called " +
-        "THEN the service must throw an InvalidArgumentError", async () => {
+    it("GIVEN an albumId, permission = read, " +
+        "WHEN findSharedAlbumUsersByPermissionService is called it " +
+        "SHOULD throw an InvalidArgumentError", async () => {
         const permission = "read";
         const expectedStmt = permissionQuerys[permission];
         const expected = new InvalidArgumentError("Permission", permission);
@@ -230,9 +230,9 @@ describe("findSharedAlbumUsersByPermissionService tests", () => {
         expect(all).toBeCalledTimes(1);
     });
 
-    it("GIVEN an albumId, permission = write and findSharedAlbumUsersByPermissionService, " +
-        "WHEN the service is called " +
-        "THEN the service must throw an InvalidArgumentError", async () => {
+    it("GIVEN an albumId, permission = write, " +
+        "WHEN findSharedAlbumUsersByPermissionService is called it " +
+        "SHOULD throw an InvalidArgumentError", async () => {
         const permission = "write";
         const expectedStmt = permissionQuerys[permission];
         const expected = new InvalidArgumentError("Permission", permission);
@@ -265,9 +265,9 @@ describe("findSharedAlbumUsersByPermissionService tests", () => {
         expect(all).toBeCalledTimes(1);
     });
 
-    it("GIVEN an unexistent albumId and findSharedAlbumUsersByPermissionService, " +
-        "WHEN the service is called " +
-        "THEN the service must throw an InvalidArgumentError", async () => {
+    it("GIVEN an unexistent albumId, " +
+        "WHEN findSharedAlbumUsersByPermissionService is called it " +
+        "SHOULD throw an InvalidArgumentError", async () => {
         const expected = new InvalidArgumentError("Album", shareUser.albumId);
         // @ts-ignore
         findAlbumService = jest.fn().mockRejectedValue({code: "404"});
@@ -287,9 +287,9 @@ describe("findSharedAlbumUsersByPermissionService tests", () => {
     });
 
 
-    it("GIVEN an albumId, an unexistent permission and findSharedAlbumUsersByPermissionService, " +
-        "WHEN the service is called " +
-        "THEN the service must throw an InvalidArgumentError", async () => {
+    it("GIVEN an albumId, an unexistent permission, " +
+        "WHEN findSharedAlbumUsersByPermissionService is called it " +
+        "SHOULD throw an InvalidArgumentError", async () => {
         const permission = "permission";
         const expected = new InvalidArgumentError("Permission", permission);
         // @ts-ignore
@@ -313,8 +313,8 @@ describe("findSharedAlbumUsersByPermissionService tests", () => {
 
 describe("changePermissionsForUser tests", () => {
     it("GIVEN an albumId, userId, permission = read and a value, " +
-        "WHEN the service is called" +
-        "THEN the service must save the user data and return ShareCodes.OK", async () => {
+        "WHEN changePermissionsForUser is called it " +
+        "SHOULD save the user data and return ShareCodes.OK", async () => {
         const permission = "read";
 
         // This was purposefully made, to check if the value that was sent is
@@ -357,11 +357,11 @@ describe("changePermissionsForUser tests", () => {
         expect(result).toEqual(expected);
         expect(getDb).toBeCalledTimes(1);
         expect(run).toBeCalledTimes(1);
-    })
+    });
 
     it("GIVEN an albumId, userId, permission = write and a value, " +
-        "WHEN the service is called" +
-        "THEN the service must save the user data and return ShareCodes.OK", async () => {
+        "WHEN changePermissionsForUser is called it " +
+        "SHOULD save the user data and return ShareCodes.OK", async () => {
         const permission = "write";
 
         // This was purposefully made, to check if the value that was sent is
@@ -407,8 +407,8 @@ describe("changePermissionsForUser tests", () => {
     });
 
     it("GIVEN an albumId, userId, permission = bad and a value, " +
-        "WHEN the service is called" +
-        "THEN the service must throw an InvalidArgumentError", async () => {
+        "WHEN changePermissionsForUser is called " +
+        "SHOULD throw an InvalidArgumentError", async () => {
         const permission = "bad";
         const expected = new InvalidArgumentError("Permission", permission);
 
@@ -430,8 +430,8 @@ describe("changePermissionsForUser tests", () => {
     });
 
     it("GIVEN an unexistent albumId" +
-        "WHEN the service is called" +
-        "THEN the service must throw an InvalidArgumentError", async () => {
+        "WHEN changePermissionsForUser is called" +
+        "SHOULD throw an InvalidArgumentError", async () => {
         const expected = new InvalidArgumentError("Album", shareUser.albumId);
         // @ts-ignore
         findAlbumService = jest.fn().mockRejectedValue({code: "404"});
@@ -456,9 +456,9 @@ describe("changePermissionsForUser tests", () => {
     });
 
 
-    it("GIVEN an unexistent userId" +
-        "WHEN the service is called" +
-        "THEN the service must throw an InvalidArgumentError", async () => {
+    it("GIVEN an unexistent userId " +
+        "WHEN changePermissionsForUser is called" +
+        "SHOULD throw an InvalidArgumentError", async () => {
         const expected = new InvalidArgumentError("User", shareUser.userId);
         // @ts-ignore
         findUserByIdService = jest.fn().mockRejectedValue({code: "404"});

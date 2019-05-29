@@ -57,9 +57,9 @@ const defaultAlbums: IAlbum[] = [
     }];
 
 
-it("GIVEN a userId, a service and findPhotos client." +
-    "WHEN the service is called" +
-    "THEN the service must return the response of findPhotos client", async () => {
+it("GIVEN a userId and findPhotos client, " +
+    "WHEN findPhotosService is called it" +
+    "SHOULD return the response of findPhotos client", async () => {
     const userId = 2;
     const albumIdsForUser = [1, 3];
     const expected: IPhoto[] = defaultPhotos
@@ -89,9 +89,9 @@ it("GIVEN a userId, a service and findPhotos client." +
 });
 
 
-it("GIVEN a service and findPhotos client." +
-    "WHEN the service is called" +
-    "THEN the service must return all the photos", async () => {
+it("GIVEN findPhotos client." +
+    "WHEN findPhotosService is called it" +
+    "SHOULD return all the photos", async () => {
     const expected: IPhoto[] = defaultPhotos;
 
     // @ts-ignore
@@ -112,10 +112,9 @@ it("GIVEN a service and findPhotos client." +
 
 
 
-it(
-    "GIVEN a malformed userId, a service and findPhotos client." +
-    "WHEN the service is called with the malformed userId" +
-    "THEN the service must throw InvalidArgumentError",
+it("GIVEN a malformed userId" +
+    "WHEN findPhotosService is called with the malformed userId it" +
+    "SHOULD throw InvalidArgumentError",
     async () => {
         const expected = new InvalidArgumentError("User Id", BAD_ID);
         // @ts-ignore

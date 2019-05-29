@@ -7,7 +7,7 @@ const should = require('chai').should();
 const sharedAlbumFormat = require('../utils/formats').sharedAlbums;
 const formats = require('../utils/formats');
 
-describe('endpoint api/sharedlbums/', function () {
+describe('/api/sharedlbums', function () {
   let randomPort;
   let currentServer;
   let client;
@@ -43,8 +43,8 @@ describe('endpoint api/sharedlbums/', function () {
     await currentServer.db.collection("sharedAlbums").removeMany({});
   });
 
-  it('post / should create new shared album', () => {
-    return client.post('/', body)
+  it('PUT / should register new shared album', () => {
+    return client.put('/', body)
       .then(response => expect(response.status).to.be.equal(200))
       .then(() => client.get('/'))
       .then(getData)
@@ -54,31 +54,31 @@ describe('endpoint api/sharedlbums/', function () {
       })
   });
 
-  it('post / should should fail with 400 when albumId is missing', () => {
+  it('PUT / should fail with 400 when albumId is missing', () => {
     const sharedAlbum = {
       userId: 1
     };
 
-    return client.post('/', sharedAlbum)
+    return client.put('/', sharedAlbum)
       .then(_ => should.fail())
       .catch(res => {
         expect(res.response.status).to.be.equal(400);
       })
   });
 
-  it('post / should shold fail with 400 when userId is missing', () => {
+  it('PUT / should fail with 400 when userId is missing', () => {
     const sharedAlbum = {
       albumId: 1
     };
 
-    return client.post('/', sharedAlbum)
+    return client.put('/', sharedAlbum)
       .then(_ => should.fail())
       .catch(res => {
         expect(res.response.status).to.be.equal(400);
       })
   });
 
-  it('post /:albumId/users adds a user to the album', () => {
+  it('POST /:albumId/users creates a user into album', () => {
     const albumId = body.albumId;
     const newUser = {
       userId: 3,
@@ -88,7 +88,7 @@ describe('endpoint api/sharedlbums/', function () {
       }
     };
 
-    return client.post('/', body)
+    return client.put('/', body)
       .then(_ => client.post(`/${albumId}/users/`, newUser))
       .then(_ => client.post(`/${albumId}/users/`, newUser))
       .then(_ => client.get(`/${albumId}`))
@@ -100,13 +100,13 @@ describe('endpoint api/sharedlbums/', function () {
       })
   });
 
-  it('POST /:albumId/users/add adds a user to the album and sets default permissions when not provided', () => {
+  it('POST /:albumId/users/ creates a user into the album and sets default permissions when not provided', () => {
     const albumId = body.albumId;
     const newUser3 = {
       userId: 3
     };
 
-    return client.post('/', body)
+    return client.put('/', body)
       .then(_ => client.post(`/${albumId}/users`, newUser3))
       .then(_ => client.get(`/${albumId}`))
       .then(getData)
@@ -117,7 +117,7 @@ describe('endpoint api/sharedlbums/', function () {
       })
   });
 
-  it('DELETE /:albumId/users/remove removes a user from the album', () => {
+  it('DELETE /:albumId/users/ removes a user from the album', () => {
     const userId = 1; // el usuario con el que se compartio el album, no el dueño
     const albumId = body.albumId;
     const newUser = {
@@ -128,7 +128,7 @@ describe('endpoint api/sharedlbums/', function () {
       }
     };
 
-    return client.post('/', body)
+    return client.put('/', body)
       .then(_ => client.post(`/${albumId}/users`, newUser))
       .then(_ => client.delete(`/${albumId}/users/${newUser.userId}`, newUser))
       .then(_ => client.get(`/${albumId}`))
@@ -143,7 +143,7 @@ describe('endpoint api/sharedlbums/', function () {
     const userIdWithPermissions = body.sharingUsers[0].userId;
     const albumId = body.albumId;
 
-    return client.post('/', body)
+    return client.put('/', body)
       .then(_ => client.patch(`/${albumId}/users/${userIdWithPermissions}/permissions`, {write: false}))
       .then(_ => client.get(`/${albumId}`))
       .then(getData)
@@ -154,7 +154,8 @@ describe('endpoint api/sharedlbums/', function () {
       })
   });
 
-  it('GET /:albumId/users/?field=read&value=true', () => {
+  it('GET /:albumId/users/?field=read&value=true responds with a list of users with read permissions for the album',
+    () => {
     const albumId = body.albumId;
     const newUser1 = {
       userId: 1,
@@ -178,7 +179,7 @@ describe('endpoint api/sharedlbums/', function () {
       }
     };
 
-    return client.post('/', body)
+    return client.put('/', body)
       .then(_ => client.post(`/${albumId}/users/`, newUser1))
       .then(_ => client.post(`/${albumId}/users/`, newUser2))
       .then(_ => client.post(`/${albumId}/users/`, newUser3))
@@ -192,8 +193,4 @@ describe('endpoint api/sharedlbums/', function () {
 
       })
   });
-
-
-  // TODO agregar tests de campos obligatorios
-
 });

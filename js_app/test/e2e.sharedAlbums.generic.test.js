@@ -7,7 +7,7 @@ const should = require('chai').should();
 const sharedAlbumFormat = require('../utils/formats').sharedAlbums;
 const formats = require('../utils/formats');
 
-describe('endpoint api/sharedlbums/ [generic tests]', function () {
+describe('/api/sharedlbums', function () {
   let randomPort;
   let currentServer;
   let client;
@@ -43,10 +43,10 @@ describe('endpoint api/sharedlbums/ [generic tests]', function () {
     await currentServer.db.collection("sharedAlbums").removeMany({});
   });
 
-  it('should return shared albums list', () => {
+  it('GET / should return shared albums list', () => {
     const ble = currentServer.dbClient;
     return client
-      .post(`/`, defaultAlbum)
+      .put(`/`, defaultAlbum)
       .then(() => client.get(`/`))
       .then(response => {
         expect(response.status).to.be.equal(200);
@@ -57,7 +57,7 @@ describe('endpoint api/sharedlbums/ [generic tests]', function () {
       })
   });
 
-  it('?field=[non existent field]&value=[value] should fail with status code 400', () => {
+  it('GET /?field=[non existent field]&value=[value] should fail with status code 400', () => {
     return axios.get(`${config.domain}:${randomPort}/api/sharedAlbums?field=NonExistentField&value="some value"`)
       .then(e => should.fail())
       .catch(res => {
@@ -65,7 +65,7 @@ describe('endpoint api/sharedlbums/ [generic tests]', function () {
       })
   });
 
-  it('?field=[empty]&value=[value] should fail with status code 400', () => {
+  it('GET /?field=[empty]&value=[value] should fail with status code 400', () => {
     return axios.get(`${config.domain}:${randomPort}/api/sharedAlbums?field=&value="some value"`)
       .then(e => should.fail())
       .catch(res => {
@@ -73,7 +73,7 @@ describe('endpoint api/sharedlbums/ [generic tests]', function () {
       })
   });
 
-  it('?field=[field]&value=[empty] should fail with status code 400', () => {
+  it('GET /?field=[field]&value=[empty] should fail with status code 400', () => {
     return axios.get(`${config.domain}:${randomPort}/api/sharedAlbums?field=userId&value=`)
       .then(e => should.fail())
       .catch(res => {
@@ -81,7 +81,7 @@ describe('endpoint api/sharedlbums/ [generic tests]', function () {
       })
   });
 
-  it('?field=[field]&value=[non existent value] should fail with status code 404', () => {
+  it('GET /?field=[field]&value=[non existent value] should fail with status code 404', () => {
     return axios.get(`${config.domain}:${randomPort}/api/sharedAlbums?field=userId&value=${Number.MAX_SAFE_INTEGER}`)
       .then(e => {
         should.fail()
@@ -91,9 +91,9 @@ describe('endpoint api/sharedlbums/ [generic tests]', function () {
       })
   });
 
-  it('/:id should respond with user with matching id', function () {
+  it('GET /[albumId] should respond with an album with matching id', function () {
     return axios
-      .post(`${config.domain}:${randomPort}/api/sharedAlbums/`, defaultAlbum)
+      .put(`${config.domain}:${randomPort}/api/sharedAlbums/`, defaultAlbum)
       .then(_ => axios.get(`${config.domain}:${randomPort}/api/sharedAlbums/${defaultAlbum.albumId}`))
       .then(response => {
         const recievedData = response.data;
@@ -102,7 +102,7 @@ describe('endpoint api/sharedlbums/ [generic tests]', function () {
       })
   });
 
-  it('/:non-existent-id should respond with status code 404', function () {
+  it('GET /[non-existent-id] should respond with status code 404', function () {
     return axios.get(`${config.domain}:${randomPort}/api/sharedAlbums/${Number.MAX_SAFE_INTEGER}`)
       .then(e => {
         should.fail()

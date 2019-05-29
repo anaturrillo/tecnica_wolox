@@ -25,7 +25,7 @@ const defaultAlbums: IAlbum[] = [
         title: "three",
     }];
 
-it("GIVEN a UserId and a findAlbumsService, WHEN the service is called THEN findAlbumsByUserId SHOULD be called",
+it("GIVEN a UserId, WHEN findAlbumsService is called THEN findAlbumsByUserId SHOULD be called",
     async () => {
         const expected: IAlbum[] = defaultAlbums;
 
@@ -44,7 +44,7 @@ it("GIVEN a UserId and a findAlbumsService, WHEN the service is called THEN find
     });
 
 
-it("GIVEN findAlbumsService, WHEN the service is called without UserID THEN findAllAlbums SHOULD be called",
+it("WHEN findAlbumsService is called without UserID THEN findAllAlbums SHOULD be called",
     async () => {
         const expected: IAlbum[] = defaultAlbums;
 
@@ -60,8 +60,8 @@ it("GIVEN findAlbumsService, WHEN the service is called without UserID THEN find
     });
 
 
-it("GIVEN findAlbumsService, WHEN the service is called with malformed UserID" +
-    " THEN findAllAlbums SHOULD throw InvalidArgumentError",
+it("GIVEN a malformed UserID WHEN findAlbumsService is called, findAllAlbums " +
+    "SHOULD throw InvalidArgumentError",
     async () => {
         const expected = new InvalidArgumentError("User Id", BAD_ID);
         // @ts-ignore
@@ -80,8 +80,7 @@ it("GIVEN findAlbumsService, WHEN the service is called with malformed UserID" +
     });
 
 
-it("GIVEN findAlbumService, WHEN the service is called with AlbumId " +
-    "THEN the client SHOULD be called",
+it("GIVEN AlbumId, WHEN findAlbumService is called, client SHOULD be called",
     async () => {
         const expected: IAlbum[] = defaultAlbums;
 
@@ -94,8 +93,7 @@ it("GIVEN findAlbumService, WHEN the service is called with AlbumId " +
     });
 
 
-it("GIVEN findAlbumService, WHEN the service is called with malformed UserID" +
-    " THEN findAlbumService SHOULD throw InvalidArgumentError",
+it("GIVEN malformed UserID, WHEN findAlbumService is called it SHOULD throw InvalidArgumentError",
     async () => {
         const expected = new InvalidArgumentError("Album Id", BAD_ID);
         // @ts-ignore

@@ -4,4 +4,6 @@
 */.stryker-tmp
 */coverage
 */db.sqlite
+*/reports
+*/stryker.log
 

@@ -30,9 +30,9 @@ const defaultComments: IComment[] = [
 ];
 
 
-it("GIVEN a email, a service and findCommentsByEmail client." +
-    "WHEN the service is called" +
-    "THEN the service must return the response of findCommentsByEmail client", async () => {
+it("GIVEN an email and a findCommentsByEmail client." +
+    "WHEN findCommentsbyQuery is called it" +
+    "SHOULD return the response of findCommentsByEmail client", async () => {
     const email = "jose@doe.com";
     const expected: IComment[] = [defaultComments[0]];
     // @ts-ignore
@@ -50,9 +50,9 @@ it("GIVEN a email, a service and findCommentsByEmail client." +
     expect(findCommentsByEmail).toBeCalledTimes(1);
 });
 
-it("GIVEN a name, a service and findCommentsByName client." +
-    "WHEN the service is called" +
-    "THEN the service must return the response of findCommentsByName client", async () => {
+it("GIVEN a name and findCommentsByName client," +
+    "WHEN findCommentsbyQuery is called it" +
+    "SHOULD return the response of findCommentsByName client", async () => {
     const name = "oid mortales el grito";
     const expected: IComment[] = [defaultComments[1]];
     // @ts-ignore
@@ -70,10 +70,10 @@ it("GIVEN a name, a service and findCommentsByName client." +
     expect(findCommentsByName).toBeCalledTimes(1);
 });
 
-it("GIVEN a name, an email, a service and findCommentsByEmail client." +
-    "WHEN the service is called with name and email" +
-    "THEN the service must return the response of findCommentsByEmail client", async () => {
-    const email = "jose@doe.com";
+it("GIVEN a name, an email and findCommentsByEmail client." +
+    "WHEN findCommentsbyQuery is called with name and email it" +
+    "SHOULD return the response of findCommentsByEmail client", async () => {
+    const email = "pepe@algo.com";
     const name = "oid mortales el grito";
     const expected: IComment[] = [defaultComments[0]];
     // @ts-ignore
@@ -91,11 +91,9 @@ it("GIVEN a name, an email, a service and findCommentsByEmail client." +
     expect(findCommentsByEmail).toBeCalledTimes(1);
 });
 
-
-it(
-    "GIVEN a malformed userId, a service and findPhotos client." +
-    "WHEN the service is called with the malformed userId" +
-    "THEN the service must throw InvalidArgumentError",
+it("GIVEN missing query parameters and findPhotos client." +
+   "WHEN findCommentsbyQuery is called it" +
+   "SHOULD throw InvalidArgumentError",
     async () => {
         const expected = new InvalidArgumentError("(name OR email)", "null");
         // @ts-ignore

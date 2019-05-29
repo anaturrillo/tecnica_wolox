@@ -6,7 +6,7 @@ const {getData, isObjWithProps} = require('../utils');
 const expect = require('chai').expect;
 const userFormat = require('../utils/formats').user;
 
-describe('endpoint api/users/', function () {
+describe('/api/users', function () {
   let randomPort;
   let currentServer;
   let allItems;
@@ -21,7 +21,7 @@ describe('endpoint api/users/', function () {
     return new Promise(result => currentServer.app.close(result));
   });
 
-  it('should return users list', () => {
+  it('GET / should return users list', () => {
     return axios.get(`${config.domain}:${randomPort}/api/users`)
       .then(getData)
       .then(recieved => {
@@ -30,7 +30,7 @@ describe('endpoint api/users/', function () {
       })
   });
 
-  it('/:id should return user with matching id', function () {
+  it('GET /[userId] should return user with matching id', function () {
     const value = allItems[0].id;
     return axios.get(`${config.domain}:${randomPort}/api/users/${value}`)
       .then(getData)
@@ -41,7 +41,7 @@ describe('endpoint api/users/', function () {
       })
   });
 
-  it('/:non-existent-id should respond with status code 404', function () {
+  it('GET /[non-existent-id] should respond with status code 404', function () {
     return axios.get(`${config.domain}:${randomPort}/api/users/${Number.MAX_SAFE_INTEGER}`)
       .then(e => {
         should.fail()

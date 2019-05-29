@@ -6,7 +6,7 @@ const expect = require('chai').expect;
 const should = require('chai').should();
 const postFormat = require('../utils/formats').post;
 
-describe('endpoint api/posts/', function () {
+describe('/api/posts/', function () {
   let randomPort;
   let currentServer;
   let allItems;
@@ -21,7 +21,7 @@ describe('endpoint api/posts/', function () {
     return new Promise(result => currentServer.app.close(result));
   });
 
-  it('should return posts list', () => {
+  it('GET / should return posts list', () => {
     return axios.get(`${config.domain}:${randomPort}/api/posts`)
       .then(response => {
         expect(response.status).to.be.equal(200);
@@ -31,7 +31,7 @@ describe('endpoint api/posts/', function () {
       })
   });
 
-  it('?field=userId&value=[value] should respond with posts list filtered by userId', () => {
+  it('GET /?field=userId&value=[value] should respond with posts list filtered by userId', () => {
     const value = allItems[0].userId;
     return axios.get(`${config.domain}:${randomPort}/api/posts?field=userId&value=${value}`)
       .then(response => {
@@ -43,7 +43,7 @@ describe('endpoint api/posts/', function () {
       })
   });
 
-  it('?field=title&value=[value] should respond with photos list filtered by title', () => {
+  it('GET /?field=title&value=[value] should respond with photos list filtered by title', () => {
     const value = allItems[0].title;
     return axios.get(`${config.domain}:${randomPort}/api/posts?field=title&value=${value}`)
       .then(response => {
@@ -55,7 +55,7 @@ describe('endpoint api/posts/', function () {
       })
   });
 
-  it('?field=[non existent field]&value=[value] should failed with status code 400', () => {
+  it('GET /?field=[non existent field]&value=[value] should failed with status code 400', () => {
     return axios.get(`${config.domain}:${randomPort}/api/posts?field=NonExistentField&value="some value"`)
       .then(e => should.fail())
       .catch(res => {
@@ -63,7 +63,7 @@ describe('endpoint api/posts/', function () {
       })
   });
 
-  it('?field=[empty]&value=[value] should failed with status code 400', () => {
+  it('GET /?field=[empty]&value=[value] should failed with status code 400', () => {
     return axios.get(`${config.domain}:${randomPort}/api/posts?field=&value="some value"`)
       .then(e => should.fail())
       .catch(res => {
@@ -71,7 +71,7 @@ describe('endpoint api/posts/', function () {
       })
   });
 
-  it('?field=[field]&value=[empty] should failed with status code 400', () => {
+  it('GET /?field=[field]&value=[empty] should failed with status code 400', () => {
     return axios.get(`${config.domain}:${randomPort}/api/posts?field=userId&value=`)
       .then(e => should.fail())
       .catch(res => {
@@ -79,7 +79,7 @@ describe('endpoint api/posts/', function () {
       })
   });
 
-  it('?field=[field]&value=[non existent value] should failed with status code 404', () => {
+  it('GET /?field=[field]&value=[non existent value] should failed with status code 404', () => {
     return axios.get(`${config.domain}:${randomPort}/api/posts?field=userId&value=${Number.MAX_SAFE_INTEGER}`)
       .then(e => {
         should.fail()
@@ -89,7 +89,7 @@ describe('endpoint api/posts/', function () {
       })
   });
 
-  it('/:id should respond with user with matching id', function () {
+  it('GET /[postId] should respond with a post with matching id', function () {
     const value = allItems[0].id;
     return axios.get(`${config.domain}:${randomPort}/api/posts/${value}`)
       .then(response => {
@@ -101,7 +101,7 @@ describe('endpoint api/posts/', function () {
       })
   });
 
-  it('/:non-existent-id should respond with status code 404', function () {
+  it('GET /[non-existent-id] should respond with status code 404', function () {
     return axios.get(`${config.domain}:${randomPort}/api/posts/${Number.MAX_SAFE_INTEGER}`)
       .then(e => {
         should.fail()
