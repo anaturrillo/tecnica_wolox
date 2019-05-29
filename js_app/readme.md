@@ -16,7 +16,7 @@ Correr e2e tests:
 $ npm test
 ```
 ### Endpoints
-[https://app.apiary.io/jsapp2/editor](https://app.apiary.io/jsapp2/editor)
+[https://jsapp2.docs.apiary.io/#](https://jsapp2.docs.apiary.io/#)
 ### Test result
 **Coverage**
 
