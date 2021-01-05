@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/mongodb": "^3.1.27",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "express": "^4.17.0",
     "mongodb": "^3.2.5",
     "morgan": "^1.9.1",
